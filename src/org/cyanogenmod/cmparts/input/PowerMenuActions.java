@@ -39,7 +39,6 @@ import cyanogenmod.providers.CMSettings;
 
 import static com.android.internal.util.cm.PowerMenuConstants.GLOBAL_ACTION_KEY_AIRPLANE;
 import static com.android.internal.util.cm.PowerMenuConstants.GLOBAL_ACTION_KEY_ASSIST;
-import static com.android.internal.util.cm.PowerMenuConstants.GLOBAL_ACTION_KEY_BUGREPORT;
 import static com.android.internal.util.cm.PowerMenuConstants.GLOBAL_ACTION_KEY_LOCKDOWN;
 import static com.android.internal.util.cm.PowerMenuConstants.GLOBAL_ACTION_KEY_RESTART;
 import static com.android.internal.util.cm.PowerMenuConstants.GLOBAL_ACTION_KEY_SCREENSHOT;
@@ -55,7 +54,6 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
     private CheckBoxPreference mScreenshotPref;
     private CheckBoxPreference mAirplanePref;
     private CheckBoxPreference mUsersPref;
-    private CheckBoxPreference mBugReportPref;
     private CheckBoxPreference mSilentPref;
 
     Context mContext;
@@ -78,10 +76,6 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
                 mScreenshotPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_SCREENSHOT);
             } else if (action.equals(GLOBAL_ACTION_KEY_AIRPLANE)) {
                 mAirplanePref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_AIRPLANE);
-            } else if (action.equals(GLOBAL_ACTION_KEY_USERS)) {
-                mUsersPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_USERS);
-            } else if (action.equals(GLOBAL_ACTION_KEY_BUGREPORT)) {
-                mBugReportPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_BUGREPORT);
             } else if (action.equals(GLOBAL_ACTION_KEY_SILENT)) {
                 mSilentPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_SILENT);
             }
@@ -119,10 +113,6 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
             }
         }
 
-        if (mBugReportPref != null) {
-            mBugReportPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_BUGREPORT));
-        }
-
         if (mSilentPref != null) {
             mSilentPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_SILENT));
         }
@@ -156,10 +146,6 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
             value = mUsersPref.isChecked();
             updateUserConfig(value, GLOBAL_ACTION_KEY_USERS);
 
-        } else if (preference == mBugReportPref) {
-            value = mBugReportPref.isChecked();
-            updateUserConfig(value, GLOBAL_ACTION_KEY_BUGREPORT);
-
         } else if (preference == mSilentPref) {
             value = mSilentPref.isChecked();
             updateUserConfig(value, GLOBAL_ACTION_KEY_SILENT);
@@ -187,19 +173,6 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
         saveUserConfig();
     }
 
-    private void updatePreferences() {
-        boolean bugreport = Settings.Global.getInt(getContentResolver(),
-                Settings.Global.BUGREPORT_IN_POWER_MENU, 0) != 0;
-
-        if (mBugReportPref != null) {
-            mBugReportPref.setEnabled(bugreport);
-            if (bugreport) {
-                mBugReportPref.setSummary(null);
-            } else {
-                mBugReportPref.setSummary(R.string.power_menu_bug_report_disabled);
-            }
-        }
-    }
 
     private void getUserConfig() {
         mLocalUserConfig.clear();
