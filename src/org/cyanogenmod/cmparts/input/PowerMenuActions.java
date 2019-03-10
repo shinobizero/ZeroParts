@@ -119,13 +119,11 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
             mSilentPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_SILENT));
         }
 
-        updatePreferences();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updatePreferences();
     }
 
     @Override
